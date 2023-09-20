@@ -27,13 +27,15 @@ def show_main(request):
 
 
 def create_product(request):
- form = ProductForm(request.POST or None)
-
- if form.is_valid() and request.method == "POST":
+    form = ProductForm(request.POST or None)
+    if form.is_valid() and request.method == "POST":
      product = form.save(commit=False)
      product.user = request.user
      product.save()
      return HttpResponseRedirect(reverse('main:show_main'))
+    
+    context = {'form': form}
+    return render(request, "create_product.html", context)
  
 
 def register(request):
